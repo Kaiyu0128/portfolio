@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Writings - Service</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="aboutme.html">About Me</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Content specific to the Service page -->
+    <div class="container">
+        <h1>AI, Study Abroad, Hackathon, and Nomad</h1>
+        <p class="description">AI, ハッカソン、留学、海外ビザについてまとめています</p>
+
+        <div class="ai-writings">
+            <h2><i class="fas fa-robot"></i> AI記事</h2>
+            <ul id="article-list"></ul>
+        </div>
+
+        <div class="hackathons">
+            <h2><i class="fas fa-code"></i> ハッカソン</h2>
+            <ul id="hackathon-list"></ul>
+        </div>
+
+        <div class="study-abroad">
+            <h2><i class="fas fa-plane"></i> 留学</h2>
+            <ul id="study-abroad-list"></ul>
+        </div>
+
+        <div class="nomad-life">
+            <h2><i class="fas fa-globe"></i> 海外ビザ</h2>
+            <ul id="nomad-list"></ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© Your Name. All rights reserved.</p>
+    </footer>
+    <script>
+        const articles = [
+            {
+                title: "OpenAI CEOサムアルトマンが語る未来のAIについて",
+                url: "https://agitimesjp.substack.com/p/sam-altman-on-agi",
+                videoId: "lfVipnrMVL8"
+            },
+            {
+                title: "Chat GPTとカスタマーサービス",
+                url: "https://agitimesjp.substack.com/p/chatgpt-and-customer-service"
+            }
+            // Additional articles can be added here
+        ];
+
+        const studyAbroad = [
+            {
+                title: "Cultural Exchange in Japan",
+                url: "https://example.com/cultural-exchange-japan"
+            },
+            // Additional study abroad articles can be added here
+        ];
+
+        const hackathons = [
+            {
+                title: "参加者200人越え! Craft Ventures主催のハッカソンにてファイナル進出",
+                url: "https://agitimesjp.substack.com/p/finalists-craft-ventures-ai-hackathon"
+            },
+            {
+                title: "参加倍率4倍! Angellist 主催のAIエージェントハッカソンにて入賞",
+                url: "https://agitimesjp.substack.com/p/4222023-3rd-place-angellist-ai-agent"
+            },
+            {
+                title: "Berri AIハッカソンにて優勝! ",
+                url: "https://agitimesjp.substack.com/p/415-1st-place-berri-ai-worlds-largest"
+            }
+            // Additional hackathon articles can be added here
+        ];
+
+        const nomad = [
+            {
+                title: "Becoming a Digital Nomad in Bali",
+                url: "https://example.com/digital-nomad-bali"
+            },
+            // Additional nomad articles can be added here
+        ];
+
+        const populateList = (listId, items) => {
+            const list = document.getElementById(listId);
+            items.forEach(item => {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.href = item.url;
+                link.target = "_blank";
+                link.textContent = item.title;
+                listItem.appendChild(link);
+
+                if (item.videoId) {
+                    const videoPreview = document.createElement("div");
+                    videoPreview.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${item.videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    listItem.appendChild(videoPreview);
+                }
+
+                list.appendChild(listItem);
+            });
+        };
+
+        window.onload = () => {
+            populateList("article-list", articles);
+            populateList("study-abroad-list", studyAbroad);
+            populateList("hackathon-list", hackathons);
+            populateList("nomad-list", nomad);
+        };
+    </script>
+</body>
+</html>

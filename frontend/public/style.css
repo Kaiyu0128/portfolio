@@ -1,0 +1,227 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: black;
+}
+
+nav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px;
+}
+
+section {
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    min-height: calc(100vh - 56px); 
+    box-sizing: border-box;
+}
+*/
+
+.social-links h1 {
+    color: #000000;
+    margin-bottom: 24px;
+}
+
+.social-links p {
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.social-links ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.social-links ul li {
+    margin: 10px 0;
+}
+
+.social-links ul li a {
+    color: #042ba0;
+    text-decoration: none;
+    font-size: 1.2rem; /* Adjusted for readability */
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-links ul li a:hover {
+    color: #8892B0;
+}
+
+.social-links ul li i {
+    margin-right: 8px;
+    font-size: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 100px;
+    }
+
+    .social-links ul li a {
+        font-size: 1rem;
+    }
+}
+
+/* In style.css service.html */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+h2 i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+.video-preview {
+    margin-top: 20px;
+}
+
+.video-preview iframe {
+    width: 100%;
+    max-width: 560px;
+    height: 315px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* 会話履歴のコンテナ */
+#conversation {
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    padding: 10px;
+    margin-top: 20px;
+    height: 300px;
+    overflow-y: auto; /* 高さが300pxを超えたらスクロールバーを表示 */
+}
+
+/* ユーザーの質問 */
+.user-question {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #d1e7ff;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+/* AIの応答 */
+.ai-response {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #ffedcb;
+    border-radius: 10px;
+    width: fit-content;
+    margin-left: auto; /* 右寄せ */
+}

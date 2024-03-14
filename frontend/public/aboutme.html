@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talk to kAI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="aboutme.html" class="active">About Me</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>About Me</h1>
+    <form id="questionForm">
+        <input type="text" id="userQuestion" placeholder="Ask question here">
+        <button type="submit">Ask</button>
+    </form>
+    <div id="response"></div>
+    <div id="conversation"></div>
+
+    <img src="kaiyu.png" alt="Kaiyu" style="width:100%;max-width:300px;">
+    <script src="script.js"></script>
+</body>
+</html>
