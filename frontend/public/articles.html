@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/articles.html">
+    <link rel="shortcut icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/articles.html">
 </head>
 <body>
     <header>
@@ -25,7 +27,11 @@
     <!-- Content specific to the Service page -->
     <div class="container">
         <h1>AI, Study Abroad, Hackathon, and Nomad</h1>
-        <p class="description">AI, ハッカソン、留学、海外ビザについてまとめています</p>
+        <p class="description">AI, ハッカソン、ノマドビザについてまとめています</p>
+        <div class="nomad-life">
+            <h2><i class="fas fa-globe"></i> ノマドビザ</h2>
+            <ul id="nomad-list"></ul>
+        </div>
 
         <div class="ai-writings">
             <h2><i class="fas fa-robot"></i> AI記事</h2>
@@ -36,21 +42,8 @@
             <h2><i class="fas fa-code"></i> ハッカソン</h2>
             <ul id="hackathon-list"></ul>
         </div>
-
-        <div class="study-abroad">
-            <h2><i class="fas fa-plane"></i> 留学</h2>
-            <ul id="study-abroad-list"></ul>
-        </div>
-
-        <div class="nomad-life">
-            <h2><i class="fas fa-globe"></i> 海外ビザ</h2>
-            <ul id="nomad-list"></ul>
-        </div>
     </div>
 
-    <footer>
-        <p>© Your Name. All rights reserved.</p>
-    </footer>
     <script>
         const articles = [
             {
@@ -63,14 +56,6 @@
                 url: "https://agitimesjp.substack.com/p/chatgpt-and-customer-service"
             }
             // Additional articles can be added here
-        ];
-
-        const studyAbroad = [
-            {
-                title: "Cultural Exchange in Japan",
-                url: "https://example.com/cultural-exchange-japan"
-            },
-            // Additional study abroad articles can be added here
         ];
 
         const hackathons = [
@@ -91,8 +76,8 @@
 
         const nomad = [
             {
-                title: "Becoming a Digital Nomad in Bali",
-                url: "https://example.com/digital-nomad-bali"
+                title: "全世界ノマドビザのすすめ",
+                url: "/articleslink/nomadvisa.html"
             },
             // Additional nomad articles can be added here
         ];
@@ -119,7 +104,6 @@
 
         window.onload = () => {
             populateList("article-list", articles);
-            populateList("study-abroad-list", studyAbroad);
             populateList("hackathon-list", hackathons);
             populateList("nomad-list", nomad);
         };

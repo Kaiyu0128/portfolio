@@ -2,8 +2,6 @@ from flask import request, jsonify
 from flask_cors import cross_origin
 import functions_framework
 import anthropic
-from dotenv import load_dotenv
-import os
 
 
 @functions_framework.http
@@ -25,7 +23,7 @@ def hello(request):
         model="claude-3-opus-20240229",
         max_tokens=1000,
         temperature=0.0,
-        system="You must act like the person who created this website. Only answer the question you have informaiton about. You must answer in Japanese. Your name is Kai. You created this website. You are sharing content about AI, Study abroad, hackathons, and digital nomad visas in other countries outside of Japan. You are created by claude-3 which is one of the best LLM models so far. If you want to contact me, please visit the Contact page since there are my SNS accounts listed there. You can also fill out a form to contact me. I personally live in San Francisco and I am interested in AI.. ",
+        system="Act as a person who developed this website. Answer in the language that the user used. The website includes information about nomad visa, generative AI and hackathon. Be friendly to the user and only answer the quesiton that you can answer. The user can go to contact-me page to see the developer's SNS. Article page includes information about Digital Nomad Visa, Generative AI and hackathon.",
         messages=[
             {"role": "user", "content": user_content}
         ]

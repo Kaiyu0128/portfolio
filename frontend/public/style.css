@@ -1,14 +1,46 @@
-
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    color: white;
-    background-color: black;
+html {
+  height: 100%;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: black; /* テキストの色を黒に変更 */
+  background-color: white; /* 背景色を白に変更 */
+}
+
+/* 地道な画像の配置 */
+.index-page {
+    background-image: url('/Users/kaiyuyokoi/Desktop/portfolio/frontend/public/src/photo.JPG'); /* 画像パスの調整 */
+    background-size: 200px; /* 画像の幅を200pxに設定 */
+    background-position: top right; /* 画像を右上に配置 */
+    background-repeat: no-repeat; /* 画像を繰り返さない */
+}
+
+main {
+  display: flex;
+  flex-direction: column; /* 要素を縦方向に配置 */
+  justify-content: flex-start; /* 上部に寄せる */
+  align-items: center; /* 中央に配置 */
+  min-height: 100vh; /* ビューポートの高さに合わせてmain要素を伸ばす */
+  text-align: center; /* テキストを中央揃えにする */
+  padding-top: 10vh; /* 上部にスペースを追加する */
+}
+  
+#welcome {
+    grid-area: welcome;
+    /* 必要に応じてサイズ調整 */
+    width: 100%;
+    max-width: 600px; /* welcomeセクションの最大幅 */
+    padding: 20px;
+    margin: 0 auto; /* 中央寄せ */
+    box-sizing: border-box;
+}
+
+
 nav {
-    background-color: #333;
+    background-color: black;
     overflow: hidden;
 }
 
@@ -16,6 +48,7 @@ nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    background-color: #000;
 }
 
 nav ul li {
@@ -35,6 +68,23 @@ nav ul li a:hover {
     color: black;
 }
 
+/* New styles for the welcome section index.html part*/
+.welcome-section {
+    text-align: center;
+    padding: 50px 20px; /* Adjust padding as necessary */
+}
+
+.welcome-section h1 {
+    margin-bottom: 20px; /* Spacing between the title and the paragraph */
+}
+
+.welcome-section p {
+    margin-bottom: 20px; /* Spacing at the bottom of the paragraph */
+    font-size: 1.1em; /* Slightly larger font size for readability */
+}
+
+
+
 .hero {
     text-align: center;
     padding: 50px;
@@ -42,13 +92,13 @@ nav ul li a:hover {
 
 section {
     padding: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid white;
 }
 
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #333;
+    background-color: black;
 }
 
 .social-links {
@@ -83,7 +133,7 @@ footer {
 }
 
 .social-links ul li a {
-    color: #042ba0;
+    color: blue;
     text-decoration: none;
     font-size: 1.2rem; /* Adjusted for readability */
     display: inline-flex;
@@ -116,15 +166,15 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
-    color: #333;
+    background-color: white;
+    color: black;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
@@ -171,14 +221,14 @@ li {
 }
 
 a {
-    color: #007bff;
+    color: blue;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #0056b3;
+    color: blue;
 }
 
 .video-preview {
@@ -211,7 +261,7 @@ a:hover {
 .user-question {
     margin-bottom: 10px;
     padding: 5px;
-    background-color: #d1e7ff;
+    background-color: white;
     border-radius: 10px;
     width: fit-content;
 }
@@ -220,8 +270,53 @@ a:hover {
 .ai-response {
     margin-bottom: 10px;
     padding: 5px;
-    background-color: #ffedcb;
+    background-color: white;
     border-radius: 10px;
     width: fit-content;
     margin-left: auto; /* 右寄せ */
+}
+
+
+
+/* チャットボックスのスタイル */
+#chatBox {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* フォームとボタンのスタイル */
+#questionForm {
+    display: flex;
+    margin-top: 20px;
+    /* フォームを中央に寄せる */
+    justify-content: center;
+}
+
+#userQuestion {
+    flex-grow: 1;
+    max-width: 60%; /* 最大幅を60%に設定 */
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    /* 入力欄を中央に寄せるための調整 */
+    display: inline-block;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    /* ボタンを入力欄に対して適切に配置 */
+    display: inline-block;
+    vertical-align: top;
+}
+
+button:hover {
+    background-color: #0056b3;
 }

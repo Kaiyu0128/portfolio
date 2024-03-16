@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
+    <link rel="preload" href="faviconのパス.ico" as="image" type="image/x-icon">
+    <link rel="icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/index.html">
+    <link rel="shortcut icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/index.html">
     <link rel="stylesheet" href="style.css">
     <script defer src="/__/firebase/10.8.1/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
@@ -22,7 +25,7 @@
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 </head>
-<body>
+<body class="index-page">
     <header>
         <nav>
             <ul>
@@ -32,26 +35,13 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-
     </header>
-
-    <section id="service">
-        <h2>Service</h2>
-        <p>留学、ハッカソン記事、AI、海外で働く情報についてまとめています。</p>
-    </section>
-
-    <section id="about">
-        <h2>About</h2>
-        <p>サイト主について知りたいことはAIに聞いてみてください</p>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>記事の投稿や、運営に興味がある方は教えてください。</p>
-    </section>
-    
-    <footer>
-        <p>© Your Name. All rights reserved.</p>
-    </footer>
+    <main>
+        <section id="welcome">
+           <h1>Welcome to My Website!</h1>
+            <p>This website features a collection of my articles, my AI created by Anthropic, and a contact form for any inquiries or collaborations. Explore to learn more about AI, study abroad, nomad visa, and my personal journey.</p>
+            <p>この個人サイトでは留学、ハッカソン、ビザ関連などの情報を記事にしてまとめています。Anthropic APIを使ったサイト主AIも作ってみたのでぜひ試してみてください。</p>
+        </section>
+  </main>
 </body>
 </html>
