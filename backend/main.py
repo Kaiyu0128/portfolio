@@ -3,6 +3,7 @@ from flask_cors import cross_origin
 import functions_framework
 import anthropic
 
+#get api key from .env file
 
 @functions_framework.http
 @cross_origin()

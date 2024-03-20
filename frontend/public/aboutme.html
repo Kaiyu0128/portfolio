@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/aboutme.html">
     <link rel="shortcut icon" href="/src/favicon.ico" type="https://portfolio-838bf.web.app/aboutme.html">
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
+    <script>
+        // ここでFirebaseを初期化
+        var firebaseConfig = {
+            apiKey: "AIzaSyDJY8EWLnqrVGBRHqTQVPwiJ7vLiZQNgI4",
+            authDomain: "portfolio-838bf.firebaseapp.com",
+            projectId: "portfolio-838bf",
+            storageBucket: "portfolio-838bf.appspot.com",
+            messagingSenderId: "113900711061",
+            appId: "1:113900711061:web:510132df09da56f4d37f9c",
+            measurementId: "G-217FVHHBL3" 
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="rag.js"></script> <!-- この行をFirebase SDKの後に配置 -->
 </head>
 <body>
     <header>
@@ -22,11 +38,15 @@
     <h1>About Me</h1>
     <div id="chatBox" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px;">
         <!-- Messages will be appended here -->
-    </div>
+    </div>   
     <form id="questionForm">
         <input type="text" id="userQuestion" placeholder="Ask question here" style="flex-grow: 1;">
         <button type="submit">Send</button>
     </form>
-    <script src="script.js"></script>
+    <button id="startSpeech">Start Speech</button>
+    <div id="fileDropArea" style="border: 2px dashed #ccc; height: 100px; overflow-y: scroll; padding: 10px; margin-bottom: 10px;">
+        あなた自身のAIチャットボット、もしくは会社用のチャットボットを作成したい場合はPDFファイルをここにドロップ
+    </div> 
+    <script src="rag.js"></script>
 </body>
 </html>
