@@ -2,3 +2,8 @@ anthropic
 flask>=1.0,<3.0
 flask_cors
 functions-framework==3.0.0
+google-cloud-storage
+firebase_admin
+langchain-community>=0.0.29
+langchain_text_splitters
+langchain

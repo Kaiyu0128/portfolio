@@ -22,7 +22,6 @@
         };
         firebase.initializeApp(firebaseConfig);
     </script>
-    <script src="rag.js"></script> <!-- この行をFirebase SDKの後に配置 -->
 </head>
 <body>
     <header>
@@ -35,18 +34,32 @@
             </ul>
         </nav>
     </header>
-    <h1>About Me</h1>
+    <h1>My personal AI(Anthropic Model)</h1>
     <div id="chatBox" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px;">
         <!-- Messages will be appended here -->
-    </div>   
+    </div>
     <form id="questionForm">
         <input type="text" id="userQuestion" placeholder="Ask question here" style="flex-grow: 1;">
         <button type="submit">Send</button>
     </form>
     <button id="startSpeech">Start Speech</button>
+    
+    <h1>RAGを活用したLLM Chat Bot(RAG + OpenAI)</h1>
     <div id="fileDropArea" style="border: 2px dashed #ccc; height: 100px; overflow-y: scroll; padding: 10px; margin-bottom: 10px;">
-        あなた自身のAIチャットボット、もしくは会社用のチャットボットを作成したい場合はPDFファイルをここにドロップ
+        あなた自身のAIチャットボット、企業向けのチャットボットを作成したい場合はPDFファイルをここにドロップ
     </div> 
+    <button id="generateChatbot">チャットボットを生成する</button>
+    <div id="chatInterface">
+        <div id="chatHistory" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px;">
+            <!-- ここにチャット履歴が表示されます -->
+        </div>
+        <div id="inputArea" style="display: flex; width: 100%; align-items: center;">
+            <input type="text" id="chatInput" placeholder="RAGで作成したチャットボットへ質問" style="flex-grow: 1;">
+            <button type="submit">Send</button>
+            <button id="startSpeech">Start Speech</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
     <script src="rag.js"></script>
 </body>
 </html>
