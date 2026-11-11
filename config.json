@@ -1,0 +1,19 @@
+{
+  "keywords": [
+    "生成AI",
+    "起業",
+    "ビジネス",
+    "マーケティング"
+  ],
+  "max_articles_per_keyword": 20,
+  "max_scrolls": 5,
+  "headless": true,
+  "delay_seconds": 3,
+  "likes": {
+    "enabled": true,
+    "min_score": 20,
+    "max_per_hour": 16,
+    "max_per_24h": 100,
+    "delay_seconds": 30
+  }
+}

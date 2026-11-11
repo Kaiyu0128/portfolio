@@ -1,0 +1,47 @@
+name: Daily Note Auto Like & Agent
+
+on:
+  schedule:
+    - cron: '15 20 * * *' # 毎日 20:15 JST (UTC 11:15) 頃に自動実行
+  workflow_dispatch: # 手動実行ボタンも用意する
+
+permissions:
+  contents: write
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install chromium
+
+      - name: Decode storage state from secret
+        run: |
+          echo "${{ secrets.NOTE_STORAGE_STATE_B64 }}" | base64 --decode > note_storage_state.json
+
+      - name: Run Note Article Agent (Search & Score)
+        run: python note.py
+
+      - name: Run Auto Like
+        run: python likes.py
+
+      - name: Commit updated database and logs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add articles.db ranked_articles.csv dashboard.html
+          git commit -m "Auto: Update articles and likes log" || exit 0
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
