@@ -1,11 +1,11 @@
-"""Apply likes automatically to discovered articles based on score criteria."""
+"""Apply likes automatically using direct API requests with CSRF and payload support."""
 import asyncio
 import json
 import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import httpx
 
-from playwright.async_api import async_playwright
 from note import BASE, DB, valid_url, normalize
 
 CONFIG = BASE / 'config.json'
@@ -27,6 +27,16 @@ def count_since(db, hours):
     return db.execute("SELECT COUNT(*) FROM like_log WHERE status='liked' AND liked_at >= ?", (threshold,)).fetchone()[0]
 
 
+def extract_note_key(url):
+    """URLからnoteのノートキー（例: n062b15b98ef5）を抽出する"""
+    parts = url.rstrip('/').split('/')
+    if 'n' in parts:
+        idx = parts.index('n')
+        if idx + 1 < len(parts):
+            return parts[idx + 1]
+    return None
+
+
 async def run():
     config = json.loads(CONFIG.read_text(encoding='utf-8'))
     settings = config.get('likes', {})
@@ -34,7 +44,7 @@ async def run():
         print('スキ機能は無効です。')
         return
     if not STATE.exists():
-        print('ログイン状態が未設定です。READMEを参照してください。')
+        print('ログイン状態が未設定です。')
         return
 
     hourly = min(int(settings.get('max_per_hour', 16)), 16)
@@ -43,10 +53,14 @@ async def run():
     if hourly < 1 or daily < 1:
         return
 
+    # note_storage_state.json からCookieと認証トークンを読み込む
+    state_data = json.loads(STATE.read_text(encoding='utf-8'))
+    cookies = {c['name']: c['value'] for c in state_data.get('cookies', [])}
+    auth_token = cookies.get('note_gql_auth_token', '')
+
     db = sqlite3.connect(DB)
     setup_db(db)
     try:
-        # データベースから未処理かつ指定スコア以上の記事を取得
         cursor = db.execute('''
             SELECT url FROM articles 
             WHERE score >= ? 
@@ -59,57 +73,73 @@ async def run():
             print('スキ対象の新しい記事はありません。')
             return
 
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=bool(config.get('headless', True)))
-            try:
-                context = await browser.new_context(storage_state=str(STATE), locale='ja-JP')
-                page = await context.new_page()
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Referer": "https://note.com/",
+            "Origin": "https://note.com",
+            "Accept": "application/json, text/plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+        }
+        if auth_token:
+            headers["Authorization"] = f"Bearer {auth_token}"
+
+        async with httpx.AsyncClient(cookies=cookies, headers=headers, timeout=15.0, follow_redirects=True) as client:
+            for raw in target_urls:
+                if not isinstance(raw, str) or not valid_url(raw):
+                    continue
+                url = normalize(raw)
                 
-                for raw in target_urls:
-                    if not isinstance(raw, str) or not valid_url(raw):
-                        continue
-                    url = normalize(raw)
+                if count_since(db, 1) >= hourly or count_since(db, 24) >= daily:
+                    print('設定した時間・日間の回数上限に達したため停止')
+                    break
+
+                note_key = extract_note_key(url)
+                if not note_key:
+                    print('ノートキーが抽出できません:', url)
+                    continue
+
+                try:
+                    # 1. 記事情報をルックアップして現在の状態を確認
+                    lookup_url = f"https://note.com/api/v3/notes/lookup?keys={note_key}&fields=key,is_liked,like_count"
+                    res = await client.get(lookup_url)
                     
-                    if count_since(db, 1) >= hourly or count_since(db, 24) >= daily:
-                        print('設定した時間・日間の回数上限に達したため停止')
-                        break
-                        
-                    response = await page.goto(url, wait_until='domcontentloaded', timeout=30000)
-                    if not response or response.status != 200:
-                        print('記事が開けません。スキップ:', url)
+                    if res.status_code != 200:
+                        print(f'記事のルックアップに失敗 (Status {res.status_code}): {url}')
                         continue
                         
-                    button = page.get_by_role('button', name='スキ', exact=True)
-                    try:
-                        await button.wait_for(state='visible', timeout=10000)
-                        if await button.count() != 1:
-                            raise RuntimeError('スキボタンが一意でない')
-                        
-                        pressed = await button.get_attribute('aria-pressed')
-                        if pressed == 'true':
-                            print('すでにスキ済み:', url)
-                            db.execute('INSERT OR IGNORE INTO like_log VALUES (?,?,?)', (url, now().isoformat(), 'already_liked'))
-                            db.commit()
-                            continue
-                            
-                        await button.click(timeout=10000)
-                        await page.wait_for_timeout(1200)
-                        
-                        if await button.get_attribute('aria-pressed') != 'true':
-                            print('スキ成功を確認できないため停止:', url)
-                            break
-                            
+                    data = res.json().get('data', {})
+                    is_liked = False
+                    if isinstance(data, dict):
+                        is_liked = data.get(note_key, {}).get('is_liked', False)
+                    elif isinstance(data, list):
+                        for item in data:
+                            if item.get('key') == note_key:
+                                is_liked = item.get('is_liked', False)
+                                break
+                    
+                    if is_liked:
+                        print('すでにスキ済み:', url)
+                        db.execute('INSERT OR IGNORE INTO like_log VALUES (?,?,?)', (url, now().isoformat(), 'already_liked'))
+                        db.commit()
+                        continue
+
+                    # 2. スキAPIへPOSTリクエスト（JSONペイロード付き）を送信
+                    like_api_url = f"https://note.com/api/v3/notes/{note_key}/likes"
+                    post_res = await client.post(like_api_url, json={})
+
+                    if post_res.status_code in [200, 201]:
                         db.execute('INSERT OR IGNORE INTO like_log VALUES (?,?,?)', (url, now().isoformat(), 'liked'))
                         db.commit()
-                        print('スキ成功:', url)
-                    except Exception as exc:
-                        print('スキ操作を安全に確認できずスキップ:', type(exc).__name__, str(exc)[:200])
-                        # エラー時に全体の処理を落とさず継続する場合は continue に変更してください
-                        break
-                        
-                    await asyncio.sleep(max(float(settings.get('delay_seconds', 30)), 10))
-            finally:
-                await browser.close()
+                        print('API直叩きによるスキ成功:', url)
+                    else:
+                        print(f'【失敗】APIエラー (Status {post_res.status_code}): {url} - {post_res.text[:150]}')
+
+                except Exception as exc:
+                    print('通信中にエラー:', type(exc).__name__, str(exc)[:200])
+                    continue
+
+                await asyncio.sleep(max(float(settings.get('delay_seconds', 30)), 10))
+
     finally:
         db.close()
 
