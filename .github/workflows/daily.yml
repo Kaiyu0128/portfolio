@@ -2,8 +2,8 @@ name: Daily Note Auto Like & Agent
 
 on:
   schedule:
-    - cron: '15 20 * * *' # 毎日 20:15 JST (UTC 11:15) 頃に自動実行
-  workflow_dispatch: # 手動実行ボタンも用意する
+    - cron: '15 20 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
