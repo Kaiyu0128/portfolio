@@ -31,7 +31,14 @@ jobs:
           echo "${{ secrets.NOTE_STORAGE_STATE_B64 }}" | base64 --decode > note_storage_state.json
 
       - name: Run Note Article Agent (Search & Score)
-        run: python note.py
+        run: python -c "
+import json
+from pathlib import Path
+config_path = Path('config.json')
+config = json.loads(config_path.read_text('utf-8'))
+config['headless'] = True
+config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2), 'utf-8')
+" && python note.py
 
       - name: Run Auto Like
         run: python likes.py
